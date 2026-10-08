@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HSC SmartPrep BD</title>
+<style>
+:root{--blue:#2563eb;--dark:#102a56;--bg:#f4f7fb;--text:#172033;--muted:#667085;--card:#fff;--green:#16a34a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Arial;color:var(--text)}
+header{background:linear-gradient(135deg,#0f2d66,#2563eb);color:white;padding:28px 18px 68px}.wrap{max-width:980px;margin:auto}
+nav{display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;font-size:20px}.pill{background:#ffffff22;padding:7px 11px;border-radius:20px;font-size:12px}
+.hero{padding-top:45px}.hero h1{font-size:42px;line-height:1.05;margin:0 0 12px}.hero p{max-width:620px;opacity:.9}
+main{max-width:980px;margin:-38px auto 50px;padding:0 16px}.card{background:var(--card);border-radius:20px;padding:24px;box-shadow:0 10px 35px #102a5612;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:14px}.subject{padding:20px;border:1px solid #e5eaf2;background:white;border-radius:15px;text-align:left;cursor:pointer}.subject:hover{box-shadow:0 7px 20px #102a5614;transform:translateY(-2px)}
+.subject b{display:block;font-size:18px;margin-bottom:6px}.muted{color:var(--muted);font-size:14px}
+.btn{border:0;border-radius:11px;padding:11px 17px;background:var(--blue);color:white;cursor:pointer;font-weight:650}.btn.secondary{background:#eaf0fb;color:#17458e}.btn.full{width:100%;margin-top:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#f7f9fc;border-radius:14px;padding:16px}.stat strong{display:block;font-size:25px}
+.progress{height:8px;background:#e7ebf2;border-radius:10px;overflow:hidden}.progress>div{height:100%;background:var(--blue);width:0}
+.option{display:block;width:100%;text-align:left;margin:10px 0;background:#f7f9fc;color:var(--text);border:2px solid transparent}.option.correct{border-color:var(--green);background:#ecfdf3}.option.wrong{border-color:#dc2626;background:#fef2f2}
+.timer{font-weight:800;color:#c2410c}.score{font-size:54px;font-weight:850;color:var(--blue)}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:11px;border-bottom:1px solid #edf0f5}
+.hidden{display:none!important}footer{text-align:center;color:#7b8494;padding:20px}
+@media(max-width:600px){.hero h1{font-size:34px}.stats{grid-template-columns:1fr}.card{padding:19px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<nav><div class="brand">📚 HSC SmartPrep BD</div><span class="pill">HSC 2027</span></nav>
+<div class="hero"><h1>Prepare smarter.<br>Score higher.</h1><p>Free HSC practice for Bangladeshi students — quizzes, timed tests and progress tracking.</p></div>
+</div></header>
+
+<main>
+<section id="dashboard" class="card">
+<h2>Dashboard</h2>
+<div class="stats">
+<div class="stat"><strong id="testsDone">0</strong><span class="muted">Tests completed</span></div>
+<div class="stat"><strong id="bestScore">0%</strong><span class="muted">Best score</span></div>
+<div class="stat"><strong id="streak">0</strong><span class="muted">Study streak</span></div>
+</div>
+</section>
+
+<section id="subjects" class="card">
+<h2>Choose your subject</h2><p class="muted">Select a subject, then choose a chapter.</p>
+<div class="grid" id="subjectGrid"></div>
+</section>
+
+<section id="chapters" class="card hidden">
+<div class="row"><button class="btn secondary" onclick="showSubjects()">← Subjects</button><h2 id="chapterTitle"></h2></div>
+<div class="grid" id="chapterGrid"></div>
+</section>
+
+<section id="quiz" class="card hidden">
+<div class="row"><button class="btn secondary" onclick="showChapters()">← Chapters</button><span class="timer" id="timer"></span></div>
+<h2 id="quizTitle"></h2><div class="progress"><div id="bar"></div></div>
+<p id="qtext"></p><div id="options"></div><p id="feedback" class="muted"></p>
+<button id="next" class="btn hidden" onclick="nextQ()">Next →</button>
+</section>
+
+<section id="result" class="card hidden">
+<h2>Test complete 🎉</h2><div class="score" id="score"></div><p id="resultText"></p>
+<div class="row"><button class="btn" onclick="showSubjects()">Practice again</button><button class="btn secondary" onclick="showLeaderboard()">View leaderboard</button></div>
+</section>
+
+<section id="leaderboard" class="card hidden">
+<h2>🏆 Your progress</h2><p class="muted">A local demo leaderboard. Real online rankings can be added with a database later.</p>
+<table><thead><tr><th>#</th><th>Student</th><th>Score</th></tr></thead>
+<tbody id="leaders"></tbody></table>
+<br><button class="btn secondary" onclick="showSubjects()">← Back</button>
+</section>
+
+<section class="card">
+<h2>⭐ Premium-ready</h2>
+<p class="muted">This demo is free. A future paid plan could include full chapter banks, admission model tests, detailed analytics and unlimited practice.</p>
+<button class="btn" onclick="alert('Premium payments will be connected after the MVP gets real users.')">See Premium</button>
+</section>
+</main>
+<footer>HSC SmartPrep BD • Built as a zero-cost MVP</footer>
+
+<script>
+const data={
+"Physics":{
+"Physical World & Measurement":[
+["Which is an SI base quantity?",["Force","Length","Energy","Pressure"],1],
+["The SI unit of force is:",["Joule","Newton","Watt","Pascal"],1],
+["A quantity with magnitude and direction is a:",["Scalar","Vector","Constant","Unit"],1],
+["The dimensional formula of velocity is:",["LT⁻¹","LT⁻²","MLT⁻¹","ML²T⁻²"],0],
+["Least count means:",["Largest reading","Smallest measurable value","Average reading","Zero error"],1]],
+"Vector":[
+["The resultant of two equal perpendicular vectors A is:",["A","√2A","2A","A/2"],1],
+["A vector of zero magnitude is called:",["Unit vector","Null vector","Position vector","Axial vector"],1],
+["The dot product of perpendicular vectors is:",["1","-1","0","∞"],2],
+["A unit vector has magnitude:",["0","1","2","Depends"],1],
+["Vector addition follows the:",["Triangle law","Ohm law","Hooke law","Boyle law"],0]],
+"Dynamics":[
+["Newton's second law is represented by:",["F=ma","P=VI","V=IR","W=mg"],0],
+["Momentum equals:",["mv","ma","m/v","v/m"],0],
+["Impulse equals change in:",["Energy","Momentum","Mass","Power"],1],
+["Action and reaction are:",["Equal and opposite","Equal and same direction","Unequal","Always zero"],0],
+["Friction generally opposes:",["Mass","Relative motion","Gravity","Temperature"],1]]
+},
+"Chemistry":{
+"Laboratory Safety & Measurement":[
+["A measuring cylinder is mainly used to measure:",["Mass","Volume","Temperature","Pressure"],1],
+["The SI unit of amount of substance is:",["Gram","Mole","Liter","Kelvin"],1],
+["A balance measures:",["Mass","Volume","Density","pH"],0],
+["The meniscus should generally be read at:",["Eye level","Above eye","Below eye","Any level"],0],
+["A pipette is designed to:",["Measure/transfer liquid accurately","Heat solids","Measure pressure","Filter gas"],0]],
+"Atomic Structure":[
+["Atomic number equals number of:",["Neutrons","Protons","Nucleons","Shells"],1],
+["An electron has charge:",["Positive","Negative","Neutral","Variable"],1],
+["Isotopes have the same:",["Mass number","Atomic number","Neutrons","Physical state"],1],
+["The nucleus contains:",["Electrons only","Protons and neutrons","Neutrons only","Photons"],1],
+["The maximum electrons in the first shell are:",["1","2","8","18"],1]]
+},
+"Higher Math":{
+"Matrix":[
+["A matrix with equal rows and columns is:",["Row matrix","Column matrix","Square matrix","Null matrix"],2],
+["The determinant of [[a,b],[c,d]] is:",["ad-bc","ac-bd","ab-cd","a+b+c+d"],0],
+["An identity matrix has diagonal entries:",["0","1","-1","Any"],1],
+["A matrix with all zero entries is:",["Unit","Null","Identity","Scalar"],1],
+["Matrix multiplication is generally:",["Commutative","Not commutative","Always impossible","Only scalar"],1]],
+"Vector":[
+["A vector has:",["Magnitude only","Direction only","Magnitude and direction","Neither"],2],
+["A unit vector has magnitude:",["0","1","2","-1"],1],
+["i·j equals:",["1","-1","0","2"],2],
+["The cross product of parallel vectors is:",["0","1","A+B","Undefined"],0],
+["The magnitude of 3i+4j is:",["3","4","5","7"],2]]
+},
+"Biology":{
+"Cell Structure":[
+["The basic unit of life is:",["Tissue","Cell","Organ","Organ system"],1],
+["The powerhouse of the cell is:",["Ribosome","Mitochondrion","Golgi body","Lysosome"],1],
+["Protein synthesis occurs at:",["Ribosomes","Vacuoles","Centrioles","Cell wall"],0],
+["Photosynthesis occurs mainly in:",["Mitochondria","Chloroplasts","Nucleus","Ribosomes"],1],
+["DNA is mainly located in the:",["Nucleus","Cell wall","Vacuole","Golgi body"],0]],
+"Genetics":[
+["The basic unit of heredity is:",["Gene","Cell","Tissue","Organ"],0],
+["DNA stands for:",["Deoxyribonucleic acid","Dinucleic acid","Double nucleic acid","Deoxygenated nucleic acid"],0],
+["A dominant allele is commonly represented by:",["Lowercase","Uppercase","Number","Symbol only"],1],
+["Humans normally have how many chromosome pairs?",["22","23","24","46"],1],
+["A genotype refers to an individual's:",["Genetic makeup","Appearance only","Age","Environment"],0]]
+},
+"ICT":{
+"Communication Systems":[
+["LAN stands for:",["Local Area Network","Large Access Node","Long Area Network","Local Application Number"],0],
+["Which is a communication medium?",["Fiber optic cable","Keyboard","Monitor","Printer"],0],
+["Bluetooth is mainly used for:",["Short-range wireless communication","Printing only","Long-distance radio only","Storage"],0],
+["A modem is associated with:",["Communication/network access","Painting","Word processing","Power supply"],0],
+["URL identifies a:",["Web resource address","CPU","Database table","Keyboard key"],0]],
+"Number Systems":[
+["Binary uses:",["0 and 1","1 and 2","0 to 9","A to F"],0],
+["Decimal base is:",["2","8","10","16"],2],
+["Hexadecimal uses base:",["2","8","10","16"],3],
+["Binary 1010 equals decimal:",["8","10","12","14"],1],
+["Octal uses base:",["2","8","10","16"],1]]
+}
+};
+
+let subject="",chapter="",questions=[],idx=0,score=0,answered=false,timerID=null,timeLeft=60;
+const $=id=>document.getElementById(id);
+const subjects=Object.keys(data);
+
+function init(){
+$("subjectGrid").innerHTML=subjects.map(s=>`<button class="subject" onclick="selectSubject('${s}')"><b>${icon(s)} ${s}</b><span>${Object.keys(data[s]).length} chapters • practice tests</span></button>`).join("");
+loadStats();
+}
+function icon(s){return {"Physics":"⚡","Chemistry":"🧪","Higher Math":"📐","Biology":"🧬","ICT":"💻"}[s]||"📚"}
+function selectSubject(s){
+subject=s;$("subjects").classList.add("hidden");$("chapters").classList.remove("hidden");$("chapterTitle").textContent=icon(s)+" "+s;
+$("chapterGrid").innerHTML=Object.keys(data[s]).map(c=>`<button class="subject" onclick="start('${c}')"><b>${c}</b><span>${data[s][c].length} questions • 60 sec</span></button>`).join("");
+window.scrollTo(0,0);
+}
+function start(c){
+chapter=c;questions=[...data[subject][chapter]].sort(()=>Math.random()-.5);idx=0;score=0;timeLeft=60;
+$("chapters").classList.add("hidden");$("quiz").classList.remove("hidden");render();
+clearInterval(timerID);timerID=setInterval(()=>{timeLeft--;updateTimer();if(timeLeft<=0){clearInterval(timerID);finish()}},1000);
+}
+function updateTimer(){$("timer").textContent="⏱ "+timeLeft+"s"}
+function render(){
+answered=false;updateTimer();let q=questions[idx];
+$("quizTitle").textContent=subject+" • "+chapter;
+$("bar").style.width=(idx/questions.length*100)+"%";
+$("qtext").innerHTML="<b>Q"+(idx+1)+". "+q[0]+"</b>";$("feedback").textContent="";$("next").classList.add("hidden");
+$("options").innerHTML=q[1].map((o,i)=>`<button class="btn option" onclick="answer(${i},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join("");
+}
+function answer(i,btn){
+if(answered)return;answered=true;let correct=questions[idx][2];
+if(i===correct){score++;btn.classList.add("correct");$("feedback").textContent="✓ Correct";}
+else{btn.classList.add("wrong");$("feedback").textContent="✗ Correct answer: "+questions[idx][1][correct]}
+document.querySelectorAll(".option")[correct].classList.add("correct");$("next").classList.remove("hidden");
+}
+function nextQ(){idx++;if(idx<questions.length)render();else finish()}
+function finish(){
+clearInterval(timerID);let pct=Math.round(score/questions.length*100);
+saveResult(pct);$("quiz").classList.add("hidden");$("result").classList.remove("hidden");
+$("score").textContent=score+" / "+questions.length;$("resultText").textContent=`${pct}% — ${pct>=80?"Excellent! 🔥":pct>=60?"Good work. Keep going! 💪":"Keep practicing. You can improve! 📚"}`;
+loadStats();
+}
+function saveResult(pct){
+let r=JSON.parse(localStorage.getItem("hscResults")||"[]");r.push({subject,chapter,pct,date:Date.now()});localStorage.setItem("hscResults",JSON.stringify(r));
+}
+function loadStats(){
+let r=JSON.parse(localStorage.getItem("hscResults")||"[]");$("testsDone").textContent=r.length;
+$("bestScore").textContent=(r.length?Math.max(...r.map(x=>x.pct)):0)+"%";
+let days=new Set(r.map(x=>new Date(x.date).toDateString()));$("streak").textContent=days.size;
+}
+function showSubjects(){clearInterval(timerID);["chapters","quiz","result","leaderboard"].forEach(x=>$(x).classList.add("hidden"));$("subjects").classList.remove("hidden");loadStats();window.scrollTo(0,0)}
+function showChapters(){clearInterval(timerID);$("quiz").classList.add("hidden");$("chapters").classList.remove("hidden")}
+function showLeaderboard(){
+$("result").classList.add("hidden");$("leaderboard").classList.remove("hidden");
+let r=JSON.parse(localStorage.getItem("hscResults")||"[]");let best=r.map(x=>x.pct).sort((a,b)=>b-a).slice(0,10);
+let names=["You","Top Student","Practice Champ","HSC Warrior","Future A+"];let rows=best.map((p,i)=>`<tr><td>${i+1}</td><td>${i===0?"You":names[i%names.length]}</td><td>${p}%</td></tr>`).join("");
+$("leaders").innerHTML=rows||"<tr><td colspan='3'>Complete a test to appear here.</td></tr>";
+}
+init();
+</script>
+</body>
+</html>
