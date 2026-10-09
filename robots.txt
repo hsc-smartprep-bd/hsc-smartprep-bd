@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://hsc-smartprep-bd.github.io/hscsmartprep/sitemap.xml
