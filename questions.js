@@ -324,6 +324,92 @@ window.HSC_SMARTPREP_DATA = {
   ]
 };
 
+/* Compatibility fix: connect the existing BANK to index.html */
+(function () {
+  if (typeof BANK === "undefined") {
+    window.SMARTPREP_QUESTIONS = null;
+    return;
+  }
+
+  const banglaNames = {
+    "Physics": "পদার্থবিজ্ঞান",
+    "Chemistry": "রসায়ন",
+    "Biology": "জীববিজ্ঞান",
+    "Higher Math": "উচ্চতর গণিত",
+    "ICT": "তথ্য ও যোগাযোগ প্রযুক্তি"
+  };
+
+  const subjects = Object.keys(BANK.chapters || {}).map(name => ({
+    id: name,
+    name: banglaNames[name] || name
+  }));
+
+  const mcq = [];
+  const cq = [];
+  const boardQuestions = [];
+
+  Object.entries(BANK.questions || {}).forEach(([subject, papers]) => {
+    Object.entries(papers || {}).forEach(([paper, chapters]) => {
+      Object.entries(chapters || {}).forEach(([chapter, data]) => {
+        (data.mcq || []).forEach((q, i) => {
+          mcq.push({
+            id: `${subject}-${paper}-${chapter}-mcq-${i}`,
+            subject,
+            paper,
+            chapter,
+            question: q.question || q.prompt || q.text || "",
+            options: Array.isArray(q.options) ? q.options : [],
+            answer: Number.isInteger(q.answer) ? q.answer : 0,
+            explanation: q.explanation || ""
+          });
+        });
+
+        (data.cq || []).forEach((q, i) => {
+          const prompt = typeof q === "string"
+            ? q
+            : q.prompt || q.question || q.text || "";
+
+          cq.push({
+            id: `${subject}-${paper}-${chapter}-cq-${i}`,
+            subject,
+            paper,
+            chapter,
+            prompt,
+            parts: Array.isArray(q.parts) ? q.parts : []
+          });
+        });
+
+        (data.board || []).forEach((q, i) => {
+          boardQuestions.push(
+            typeof q === "string"
+              ? {
+                  id: `${subject}-${paper}-${chapter}-board-${i}`,
+                  subject,
+                  paper,
+                  chapter,
+                  question: q
+                }
+              : {
+                  ...q,
+                  id: q.id || `${subject}-${paper}-${chapter}-board-${i}`,
+                  subject,
+                  paper,
+                  chapter
+                }
+          );
+        });
+      });
+    });
+  });
+
+  window.SMARTPREP_QUESTIONS = {
+    subjects,
+    mcq,
+    cq,
+    boardQuestions
+  };
+})();
+
 // পুরোনো ধরনের নাম ব্যবহার করা পেজের জন্য সহজ alias
 window.mcqQuestions = window.HSC_SMARTPREP_DATA.mcqQuestions;
 window.creativeQuestions = window.HSC_SMARTPREP_DATA.creativeQuestions;
