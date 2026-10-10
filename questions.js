@@ -1,4 +1,3 @@
-
 window.BANK = {
   chapters: {
     "Physics": {
