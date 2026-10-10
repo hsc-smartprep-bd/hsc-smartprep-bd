@@ -1,5 +1,5 @@
 
-const BANK = {
+const  = {
   chapters: {
     "Physics": {
       "1st Paper": [
@@ -84,32 +84,3 @@ const BANK = {
         "Trigonometric Ratios",
         "Associated Angles",
         "Functions and Graphs",
-        "Differentiation",
-        "Integration"
-      ],
-      "2nd Paper": [
-        "Real Numbers and Inequalities",
-        "Linear Programming",
-        "Complex Numbers",
-        "Polynomials and Polynomial Equations",
-        "Binomial Expansion",
-        "Conics",
-        "Inverse Trigonometric Functions",
-        "Statics",
-        "Motion of Particles in a Plane",
-        "Probability"
-      ]
-    },
-    "ICT": {
-      "Combined": [
-        "ICT: World and Bangladesh Perspective",
-        "Communication Systems and Networking",
-        "Number Systems and Digital Devices",
-        "Web Design and HTML",
-        "Programming Language",
-        "Database Management System"
-      ]
-    }
-  },
-  questions: {}
-};
