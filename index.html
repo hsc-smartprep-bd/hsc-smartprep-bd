@@ -56,4 +56,11 @@ function finishQuiz(){if(score>state.best)state.best=score;save();document.getEl
 function renderBank(){let sub=document.getElementById("bankSubject").value,search=document.getElementById("bankSearch").value.toLowerCase();let list=questions.filter(x=>(!sub||x.s===sub)&&(!search||x.q.toLowerCase().includes(search)||x.ch.toLowerCase().includes(search)));document.getElementById("bankList").innerHTML=list.map((x,i)=>'<div class="card" style="margin-bottom:10px"><span class="badge">'+x.s+'</span> <span class="muted">'+x.ch+'</span><p><b>'+(i+1)+'. '+x.q+'</b></p><div class="muted">A. '+x.o[0]+' &nbsp; B. '+x.o[1]+' &nbsp; C. '+x.o[2]+' &nbsp; D. '+x.o[3]+'</div><details style="margin-top:9px"><summary>উত্তর দেখুন</summary><p><b>'+String.fromCharCode(65+x.a)+'. '+x.o[x.a]+'</b></p></details></div>').join("")||'<div class="card">কোনো প্রশ্ন পাওয়া যায়নি।</div>'}
 function resetProgress(){if(confirm("সব অগ্রগতি মুছে ফেলবে?")){state={answered:0,correct:0,best:0};save()}}
 updateStats();renderBank();
-</script></body></html>
+</script>
+<footer style="text-align:center;padding:24px 12px;margin-top:24px;background:#f4f7fb;color:#142033;">
+  <a href="about.html">About Us</a> |
+  <a href="contact.html">Contact Us</a> |
+  <a href="privacy.html">Privacy Policy</a>
+  <p>© 2026 HSC SmartPrep BD</p>
+</footer>
+</body></html>
