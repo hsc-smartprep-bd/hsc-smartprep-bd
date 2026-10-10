@@ -83,3 +83,6 @@ const BANK = {
         "Trigonometric Ratios",
         "Associated Angles",
         "Functions and Graphs",
+    }
+  }
+};
