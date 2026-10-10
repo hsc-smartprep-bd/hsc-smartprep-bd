@@ -1,47 +1,53 @@
-# HSC SmartPrep BD — Chapter-wise Question Bank
+🇧🇩 HSC SmartPrep BD
 
-## Files
-- `index.html` — responsive website UI and filters
-- `questions.js` — chapter list and question data
+এইচএসসি ২০২৭ শিক্ষার্থীদের জন্য বাংলা অনলাইন প্রস্তুতি প্ল্যাটফর্ম।
 
-## Install on GitHub Pages
-1. Download and unzip this folder.
-2. Open your repository: https://github.com/hsc-smartprep-bd/hscsmartprep
-3. Replace the existing `index.html` with this `index.html` (download a backup first).
-4. Upload `questions.js` to the repository root, beside `index.html`.
-5. Commit the changes to the branch/folder configured for GitHub Pages.
-6. Open `https://hsc-smartprep-bd.github.io/hscsmartprep/` and refresh. If an old version appears, hard-refresh or open in a private tab.
+HSC SmartPrep BD-তে শিক্ষার্থীরা বিনামূল্যে বিভিন্ন বিষয়ের প্রশ্ন অনুশীলন করতে পারবে এবং পরীক্ষার প্রস্তুতি নিতে পারবে।
 
-## Important content notes
-- The chapter index is a practical starter based on common Bangladesh HSC textbook chapter structures. Confirm exact chapter names and syllabus coverage for the HSC 2027 cohort against the current official NCTB/education-board guidance before advertising it as a definitive syllabus.
-- Only a small set of original sample MCQs is included with worked explanations, plus original CQ practice prompts. Other chapters display a clear "being prepared" notice rather than fabricated questions.
-- The Board Questions section is intentionally empty until you add verified past-paper questions with board and year. Do not label generated practice questions as authentic past-board questions.
-- This is a static site and needs no server or database. Anyone can view the questions in the source; don't store private information here.
+🌐 ওয়েবসাইট: https://hsc-smartprep-bd.github.io/hscsmartprep/
 
-## Add an MCQ
-In `questions.js`, find `questions` → subject → paper → exact chapter title. Add an object to the `mcq` array:
-```js
-{
-  "question": "Your question?",
-  "options": ["Option A", "Option B", "Option C", "Option D"],
-  "answer": 1,
-  "explanation": "Explain why option B is correct."
-}
-```
-`answer` is zero-based: 0 = first option, 1 = second option, etc.
+📚 আমাদের বিষয়সমূহ
 
-## Add a CQ
-Add a string to that chapter's `cq` array:
-```js
-"Read the stem and answer (a), (b), (c) and (d) ..."
-```
+১. পদার্থবিজ্ঞান
+২. রসায়ন
+৩. উচ্চতর গণিত
+৪. জীববিজ্ঞান
+৫. তথ্য ও যোগাযোগ প্রযুক্তি (ICT)
 
-## Add a verified board question
-Add an object to `board`:
-```js
-{"year":"2024","board":"Dhaka Board","question":"Your transcribed question, checked against the original paper."}
-```
-Check copyright/permission and use official or permitted sources. You can also link to an official paper instead of republishing full text.
+🎯 ওয়েবসাইটের সুবিধা
 
-## Official reference
-NCTB publishes higher-secondary textbook and curriculum information. Start at https://nctb.gov.bd/ and verify the current HSC 2027 syllabus. The public NCTB page for older revised HSC syllabi is https://nctb.gov.bd/site/page/9a90c854-ce5f-4d77-9915-1ecd0953079d/SSC-%26-HSC-Syllabus
+- 📝 MCQ অনুশীলন
+- 📖 সৃজনশীল প্রশ্ন (CQ)
+- 🏫 বোর্ড পরীক্ষার প্রশ্ন
+- ✅ সঠিক উত্তর ও ব্যাখ্যা
+- 📊 পরীক্ষার ফলাফল ও স্কোর
+- 🇧🇩 সম্পূর্ণ বাংলা ভাষায় পড়াশোনার সুবিধা
+- 📱 মোবাইল ও কম্পিউটারে ব্যবহারযোগ্য
+
+📁 প্রজেক্টের ফাইল
+
+- "index.html" — ওয়েবসাইটের মূল পৃষ্ঠা।
+- "questions.js" — প্রশ্ন ও উত্তর সংরক্ষণের ফাইল।
+- "README.md" — প্রজেক্টের পরিচিতি ও নির্দেশিকা।
+
+🚀 GitHub Pages-এ চালানোর নিয়ম
+
+১. GitHub repository খুলুন।
+২. "index.html", "questions.js" এবং "README.md" একই মূল ফোল্ডারে রাখুন।
+৩. পরিবর্তনগুলো Commit changes করুন।
+৪. Repository-এর Settings → Pages থেকে GitHub Pages চালু করুন।
+৫. ওয়েবসাইটের লিংকে প্রবেশ করে পরীক্ষা করুন।
+
+💡 আমাদের লক্ষ্য
+
+বাংলাদেশের এইচএসসি শিক্ষার্থীদের জন্য সহজ, কার্যকর ও বিনামূল্যের অনলাইন প্রস্তুতির ব্যবস্থা তৈরি করা।
+
+🤝 অবদান
+
+শিক্ষার্থীদের সুবিধার জন্য নতুন প্রশ্ন, সঠিক উত্তর, ব্যাখ্যা ও শিক্ষামূলক উপকরণ যোগ করে এই উদ্যোগকে সমৃদ্ধ করা যাবে।
+
+---
+
+HSC SmartPrep BD — স্মার্ট প্রস্তুতি, আত্মবিশ্বাসী সাফল্য! 🇧🇩
+
+© HSC SmartPrep BD. All rights reserved.
