@@ -1,5 +1,4 @@
-
-const  = {
+const BANK = {
   chapters: {
     "Physics": {
       "1st Paper": [
