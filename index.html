@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="HSC SmartPrep BD — এইচএসসি ২০২৭-এর বাংলা MCQ, সৃজনশীল ও অনুশীলনী প্রশ্ন।">
+  <meta name="description" content="HSC SmartPrep BD — এইচএসসি ২০২৭-এর বাংলা প্রশ্ন অনুশীলন।">
   <title>HSC SmartPrep BD | এইচএসসি প্রস্তুতি</title>
 
   <style>
@@ -17,9 +17,7 @@
       --red: #b42318;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -40,25 +38,17 @@
       margin: auto;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(1.7rem, 5vw, 2.4rem);
-    }
+    h1 { margin: 0; font-size: 2rem; }
+    header p { margin: 5px 0; }
 
-    header p {
-      margin: 5px 0;
-    }
-
-    main {
-      padding: 16px;
-    }
+    main { padding: 16px; }
 
     .panel, .question {
       background: white;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 16px;
-      margin: 14px 0;
+      margin: 12px 0;
       box-shadow: 0 2px 7px #17233408;
     }
 
@@ -88,27 +78,10 @@
       color: var(--blue);
     }
 
-    .tabs button {
-      flex: 1;
-      min-width: 125px;
-    }
+    .tabs button { flex: 1; min-width: 120px; }
+    .controls select, .controls input { flex: 1; min-width: 145px; }
 
-    .controls select, .controls input {
-      flex: 1;
-      min-width: 140px;
-      background: white;
-      color: var(--ink);
-    }
-
-    .meta, .muted {
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
-    .question h3 {
-      margin: 8px 0 12px;
-      font-size: 1.08rem;
-    }
+    .meta { color: var(--muted); font-size: .9rem; }
 
     .option {
       display: block;
@@ -131,14 +104,18 @@
     }
 
     .answer {
-      margin-top: 12px;
+      margin-top: 10px;
       padding: 12px;
       background: #f0f6ff;
       border-radius: 9px;
     }
 
-    .hidden {
-      display: none;
+    .hidden { display: none; }
+
+    .empty {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
     }
 
     .part {
@@ -155,26 +132,19 @@
       font-size: .8rem;
     }
 
-    .empty {
-      text-align: center;
-      padding: 22px;
-    }
-
-    details {
-      margin-top: 8px;
-    }
-
-    summary {
-      cursor: pointer;
-      color: var(--blue);
-      font-weight: 600;
-    }
-
     footer {
       text-align: center;
       color: var(--muted);
       padding: 22px;
-      font-size: .9rem;
+    }
+
+    details { margin-top: 8px; }
+    summary { cursor: pointer; color: var(--blue); }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 1.65rem; }
+      main { padding: 10px; }
+      .panel, .question { padding: 12px; }
     }
   </style>
 </head>
@@ -191,7 +161,7 @@
   <main>
     <section class="panel">
       <strong>স্বাগতম!</strong>
-      <p>বিষয় নির্বাচন করো, প্রশ্নের উত্তর দাও এবং নিজের প্রস্তুতি যাচাই করো।</p>
+      <p>বিষয় ও অধ্যায় নির্বাচন করে অনুশীলন শুরু করো। MCQ-এর উত্তর নির্বাচন করলে সঠিক উত্তর ও ব্যাখ্যা দেখতে পারবে।</p>
     </section>
 
     <div class="tabs">
@@ -202,347 +172,338 @@
 
     <section class="panel">
       <div class="controls">
-        <select id="subject">
+        <select id="subject" aria-label="বিষয়">
           <option value="all">সব বিষয়</option>
         </select>
 
-        <select id="chapter">
+        <select id="paper" aria-label="পত্র">
+          <option value="all">সব পত্র</option>
+        </select>
+
+        <select id="chapter" aria-label="অধ্যায়">
           <option value="all">সব অধ্যায়</option>
         </select>
 
-        <input
-          id="search"
-          type="search"
-          placeholder="প্রশ্ন খুঁজুন..."
-          aria-label="প্রশ্ন খুঁজুন"
-        >
+        <input id="search" placeholder="প্রশ্ন বা অধ্যায় খুঁজুন..." aria-label="প্রশ্ন খুঁজুন">
 
         <button id="reset" class="secondary">রিসেট</button>
       </div>
 
-      <p id="status" class="meta" aria-live="polite"></p>
+      <p id="status" class="meta" aria-live="polite">প্রশ্ন লোড হচ্ছে...</p>
     </section>
 
-    <div id="app">
-      <div class="panel">প্রশ্ন লোড হচ্ছে...</div>
-    </div>
+    <div id="app"></div>
   </main>
 
-  <footer>
-    © HSC SmartPrep BD · শেখো, অনুশীলন করো, এগিয়ে যাও।
-  </footer>
+  <footer>© HSC SmartPrep BD · শেখো, অনুশীলন করো, এগিয়ে যাও।</footer>
 
-  <!-- প্রশ্নের ডেটা ফাইল -->
-  <script src="./questions.js"></script>
+  <!-- Load the question bank before running the website code -->
+  <script src="./questions.js?v=3"></script>
 
   <script>
-    (() => {
-      "use strict";
+  (() => {
+    "use strict";
 
-      const data = window.HSC_SMARTPREP_DATA;
+    const app = document.getElementById("app");
+    const subjectSelect = document.getElementById("subject");
+    const paperSelect = document.getElementById("paper");
+    const chapterSelect = document.getElementById("chapter");
+    const searchInput = document.getElementById("search");
+    const status = document.getElementById("status");
+    const resetButton = document.getElementById("reset");
 
-      const app = document.getElementById("app");
-      const subjectSelect = document.getElementById("subject");
-      const chapterSelect = document.getElementById("chapter");
-      const searchInput = document.getElementById("search");
-      const status = document.getElementById("status");
-      const resetButton = document.getElementById("reset");
+    let mode = "mcq";
 
-      let mode = "mcq";
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
 
-      if (!data) {
+    const bank = window.SMARTPREP_QUESTIONS;
+
+    if (!bank || !Array.isArray(bank.subjects)) {
+      status.textContent = "প্রশ্নের ফাইল লোড হয়নি।";
+      app.innerHTML = `
+        <section class="panel">
+          <h3>প্রশ্ন লোড করা যায়নি 😕</h3>
+          <p>GitHub repository-তে index.html ও questions.js একই ফোল্ডারে আছে কি না দেখো।</p>
+          <p>questions.js-এর শেষে SMARTPREP_QUESTIONS তৈরি করার কোড যোগ করা হয়েছে কি না যাচাই করো।</p>
+        </section>`;
+      return;
+    }
+
+    const subjects = bank.subjects;
+    const mcqs = Array.isArray(bank.mcq) ? bank.mcq : [];
+    const cqs = Array.isArray(bank.cq) ? bank.cq : [];
+    const boards = Array.isArray(bank.boardQuestions)
+      ? bank.boardQuestions : [];
+
+    function subjectName(id) {
+      const found = subjects.find(s => s.id === id);
+      return found ? found.name : (id || "বিষয় উল্লেখ নেই");
+    }
+
+    subjects.forEach(item => {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      subjectSelect.appendChild(option);
+    });
+
+    function getItems() {
+      if (mode === "mcq") return mcqs;
+      if (mode === "cq") return cqs;
+      return boards;
+    }
+
+    function updatePapers() {
+      const previous = paperSelect.value;
+      const selectedSubject = subjectSelect.value;
+
+      const papers = [...new Set(
+        getItems()
+          .filter(q => selectedSubject === "all" || q.subject === selectedSubject)
+          .map(q => q.paper)
+          .filter(Boolean)
+      )];
+
+      paperSelect.innerHTML =
+        '<option value="all">সব পত্র</option>' +
+        papers.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join("");
+
+      if (papers.includes(previous)) paperSelect.value = previous;
+    }
+
+    function updateChapters() {
+      const previous = chapterSelect.value;
+
+      const chapters = [...new Set(
+        getItems()
+          .filter(q =>
+            (subjectSelect.value === "all" || q.subject === subjectSelect.value) &&
+            (paperSelect.value === "all" || q.paper === paperSelect.value)
+          )
+          .map(q => q.chapter)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+
+      chapterSelect.innerHTML =
+        '<option value="all">সব অধ্যায়</option>' +
+        chapters.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+
+      if (chapters.includes(previous)) chapterSelect.value = previous;
+    }
+
+    function getFilteredItems() {
+      const term = searchInput.value.trim().toLowerCase();
+
+      return getItems().filter(q => {
+        const text = [
+          q.question, q.prompt, q.chapter, q.year,
+          q.board, q.questionType, q.explanation
+        ].join(" ").toLowerCase();
+
+        return (
+          (subjectSelect.value === "all" || q.subject === subjectSelect.value) &&
+          (paperSelect.value === "all" || q.paper === paperSelect.value) &&
+          (chapterSelect.value === "all" || q.chapter === chapterSelect.value) &&
+          (!term || text.includes(term))
+        );
+      });
+    }
+
+    function mcqCard(q, index) {
+      const options = Array.isArray(q.options) ? q.options : [];
+
+      if (!q.question || options.length === 0) {
+        return `
+          <article class="question">
+            <p>${index + 1}. ${esc(q.question || "প্রশ্নের লেখা অসম্পূর্ণ")}</p>
+            <p class="meta">এই প্রশ্নের বিকল্প যোগ করা হয়নি।</p>
+          </article>`;
+      }
+
+      return `
+        <article class="question">
+          <div class="meta">
+            ${index + 1}. ${esc(subjectName(q.subject))}
+            · ${esc(q.paper || "")}
+            · ${esc(q.chapter || "অধ্যায় উল্লেখ নেই")}
+          </div>
+
+          <h3>${esc(q.question)}</h3>
+
+          ${options.map((option, i) => `
+            <button class="option"
+              data-option="${i}"
+              data-correct="${i === q.answer}"
+              type="button">
+              ${"কখগঘ"[i] || (i + 1)}. ${esc(option)}
+            </button>
+          `).join("")}
+
+          <div class="answer hidden">
+            <strong>সঠিক উত্তর:</strong>
+            ${esc(options[q.answer] ?? "উত্তর দেওয়া হয়নি")}
+            <p><strong>ব্যাখ্যা:</strong>
+            ${esc(q.explanation || "ব্যাখ্যা যোগ করা হয়নি।")}</p>
+          </div>
+        </article>`;
+    }
+
+    function cqCard(q, index) {
+      const prompt = typeof q.prompt === "string" ? q.prompt : "";
+
+      return `
+        <article class="question">
+          <div class="meta">
+            ${index + 1}. ${esc(subjectName(q.subject))}
+            · ${esc(q.paper || "")}
+            · ${esc(q.chapter || "অধ্যায় উল্লেখ নেই")}
+            <span class="pill">সৃজনশীল</span>
+          </div>
+
+          <h3>উদ্দীপক / প্রশ্ন</h3>
+          <p>${esc(prompt)}</p>
+
+          ${(Array.isArray(q.parts) ? q.parts : []).map(part => `
+            <div class="part">
+              <strong>${esc(part.label || "প্রশ্ন")}:</strong>
+              ${esc(part.question || "")}
+              ${part.marks != null ? `(${esc(part.marks)} নম্বর)` : ""}
+              ${part.answer ? `
+                <details>
+                  <summary>নমুনা উত্তর দেখো</summary>
+                  <p>${esc(part.answer)}</p>
+                </details>` : ""}
+            </div>
+          `).join("")}
+        </article>`;
+    }
+
+    function boardCard(q, index) {
+      return `
+        <article class="question">
+          <div class="meta">
+            ${index + 1}. ${esc(subjectName(q.subject))}
+            · ${esc(q.paper || "")}
+            · ${esc(q.chapter || "অধ্যায় উল্লেখ নেই")}
+          </div>
+
+          <h3>${esc(q.question || q.prompt || "প্রশ্ন")}</h3>
+
+          <p class="meta">
+            ${esc([q.board, q.year, q.questionType].filter(Boolean).join(" · "))}
+          </p>
+
+          ${Array.isArray(q.options) ? q.options.map((option, i) => `
+            <p>${"কখগঘ"[i] || (i + 1)}. ${esc(option)}</p>
+          `).join("") : ""}
+
+          ${q.answerText ? `
+            <details>
+              <summary>উত্তর দেখো</summary>
+              <p>${esc(q.answerText)}</p>
+            </details>` : ""}
+        </article>`;
+    }
+
+    function render() {
+      updatePapers();
+      updateChapters();
+
+      const items = getFilteredItems();
+
+      const modeName = mode === "mcq"
+        ? "MCQ"
+        : mode === "cq" ? "সৃজনশীল প্রশ্ন" : "বোর্ড প্রশ্ন";
+
+      status.textContent = `মোট ${items.length}টি ${modeName} পাওয়া গেছে।`;
+
+      if (items.length === 0) {
         app.innerHTML = `
-          <section class="panel">
-            <h3>প্রশ্ন লোড হয়নি!</h3>
-            <p>নিশ্চিত করো যে questions.js ফাইলটি index.html-এর একই ফোল্ডারে আছে।</p>
-            <p>questions.js ফাইলে window.HSC_SMARTPREP_DATA নামে ডেটা থাকতে হবে।</p>
-          </section>
-        `;
-        status.textContent = "প্রশ্নের ডেটা পাওয়া যায়নি।";
+          <section class="panel empty">
+            <h3>এই বিভাগে প্রশ্ন পাওয়া যায়নি।</h3>
+            <p>অন্য বিষয় বা অধ্যায় নির্বাচন করে দেখো।</p>
+            ${mode === "board"
+              ? "<p>বোর্ড প্রশ্নের তালিকা ফাঁকা থাকলে questions.js-এ যাচাইকৃত প্রশ্ন যোগ করতে হবে।</p>"
+              : ""}
+          </section>`;
         return;
       }
 
-      const subjects = data.subjects || [];
-      const mcqs = data.mcqQuestions || [];
-      const cqs = data.creativeQuestions || [];
-      const boardQuestions = data.boardQuestions || [];
+      app.innerHTML = items.map((q, i) =>
+        mode === "mcq" ? mcqCard(q, i) :
+        mode === "cq" ? cqCard(q, i) :
+        boardCard(q, i)
+      ).join("");
+    }
 
-      // বিষয়ের তালিকা তৈরি
-      subjects.forEach(item => {
-        const option = document.createElement("option");
-        option.value = item.id;
-        option.textContent = item.name;
-        subjectSelect.appendChild(option);
+    app.addEventListener("click", event => {
+      const button = event.target.closest(".option");
+      if (!button) return;
+
+      const card = button.closest(".question");
+      if (!card || button.disabled) return;
+
+      card.querySelectorAll(".option").forEach(option => {
+        option.disabled = true;
+        if (option.dataset.correct === "true") {
+          option.classList.add("correct");
+        }
       });
 
-      // HTML-এ নিরাপদে লেখা দেখানো
-      function escapeHTML(value) {
-        return String(value ?? "").replace(/[&<>"']/g, char => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        })[char]);
+      if (button.dataset.correct !== "true") {
+        button.classList.add("wrong");
       }
 
-      function subjectName(id) {
-        const item = subjects.find(s => s.id === id);
-        return item ? item.name : (id || "বিষয় উল্লেখ নেই");
-      }
+      const answer = card.querySelector(".answer");
+      if (answer) answer.classList.remove("hidden");
+    });
 
-      function currentItems() {
-        if (mode === "mcq") return mcqs;
-        if (mode === "cq") return cqs;
-        return boardQuestions;
-      }
+    document.querySelectorAll("[data-mode]").forEach(button => {
+      button.addEventListener("click", () => {
+        mode = button.dataset.mode;
 
-      function updateChapters() {
-        const previous = chapterSelect.value;
-
-        const chapters = [
-          ...new Set(
-            currentItems()
-              .filter(q =>
-                subjectSelect.value === "all" ||
-                q.subject === subjectSelect.value
-              )
-              .map(q => q.chapter)
-              .filter(Boolean)
-          )
-        ].sort();
-
-        chapterSelect.innerHTML =
-          '<option value="all">সব অধ্যায়</option>';
-
-        chapters.forEach(name => {
-          const option = document.createElement("option");
-          option.value = name;
-          option.textContent = name;
-          chapterSelect.appendChild(option);
+        document.querySelectorAll("[data-mode]").forEach(tab => {
+          tab.classList.toggle("secondary", tab !== button);
         });
 
-        if (chapters.includes(previous)) {
-          chapterSelect.value = previous;
-        }
-      }
-
-      function filteredItems() {
-        const term = searchInput.value.trim().toLowerCase();
-
-        return currentItems().filter(q => {
-          const matchesSubject =
-            subjectSelect.value === "all" ||
-            q.subject === subjectSelect.value;
-
-          const matchesChapter =
-            chapterSelect.value === "all" ||
-            q.chapter === chapterSelect.value;
-
-          const searchable = [
-            q.question,
-            q.stimulus,
-            q.prompt,
-            q.chapter,
-            q.board,
-            ...(q.options || []),
-            ...(q.questions || []).map(p => p.question)
-          ].join(" ").toLowerCase();
-
-          return matchesSubject &&
-            matchesChapter &&
-            (!term || searchable.includes(term));
-        });
-      }
-
-      function renderMCQ(q, index) {
-        const options = Array.isArray(q.options) ? q.options : [];
-
-        return `
-          <article class="question">
-            <div class="meta">
-              ${index + 1}. ${escapeHTML(subjectName(q.subject))}
-              · ${escapeHTML(q.chapter || "অধ্যায় উল্লেখ নেই")}
-            </div>
-
-            <h3>${escapeHTML(q.question)}</h3>
-
-            <div class="options">
-              ${options.map((option, i) => `
-                <button
-                  type="button"
-                  class="option"
-                  data-index="${i}"
-                  data-correct="${i === q.answer}"
-                >
-                  ${["ক", "খ", "গ", "ঘ"][i] || (i + 1)}.
-                  ${escapeHTML(option)}
-                </button>
-              `).join("")}
-            </div>
-
-            <div class="answer hidden">
-              <strong>সঠিক উত্তর:</strong>
-              ${escapeHTML(options[q.answer] ?? "উত্তর দেওয়া নেই")}
-              <br>
-              <strong>ব্যাখ্যা:</strong>
-              ${escapeHTML(q.explanation || "ব্যাখ্যা যোগ করা হয়নি।")}
-            </div>
-          </article>
-        `;
-      }
-
-      function renderCQ(q, index) {
-        const parts = q.questions || q.parts || [];
-
-        return `
-          <article class="question">
-            <div class="meta">
-              ${index + 1}. ${escapeHTML(subjectName(q.subject))}
-              · ${escapeHTML(q.chapter || "অধ্যায় উল্লেখ নেই")}
-              <span class="pill">সৃজনশীল</span>
-            </div>
-
-            <h3>উদ্দীপক</h3>
-            <p>${escapeHTML(q.stimulus || q.prompt || "উদ্দীপক যোগ করা হয়নি।")}</p>
-
-            ${parts.map(part => `
-              <div class="part">
-                <strong>
-                  ${escapeHTML(part.part || part.label || "")}
-                  (${escapeHTML(part.marks ?? "")} নম্বর)
-                </strong>
-                <p>${escapeHTML(part.question || "")}</p>
-                ${part.answer ? `
-                  <details>
-                    <summary>উত্তর দেখো</summary>
-                    <p>${escapeHTML(part.answer)}</p>
-                  </details>
-                ` : ""}
-              </div>
-            `).join("")}
-          </article>
-        `;
-      }
-
-      function renderBoard(q, index) {
-        const answer = q.answerText || q.answer || "";
-
-        return `
-          <article class="question">
-            <div class="meta">
-              ${index + 1}. ${escapeHTML(subjectName(q.subject))}
-              · ${escapeHTML(q.chapter || "অধ্যায় উল্লেখ নেই")}
-            </div>
-
-            <h3>${escapeHTML(q.question || q.prompt || "")}</h3>
-
-            <p class="meta">
-              ${escapeHTML(q.board || "অনুশীলন প্রশ্ন")}
-              ${q.year ? " · " + escapeHTML(q.year) : ""}
-            </p>
-
-            ${q.options ? q.options.map((option, i) => `
-              <p>${["ক", "খ", "গ", "ঘ"][i] || (i + 1)}.
-                ${escapeHTML(option)}
-              </p>
-            `).join("") : ""}
-
-            ${answer ? `
-              <details>
-                <summary>উত্তর দেখো</summary>
-                <p>${escapeHTML(answer)}</p>
-              </details>
-            ` : ""}
-
-            ${q.note ? `<p class="meta">${escapeHTML(q.note)}</p>` : ""}
-          </article>
-        `;
-      }
-
-      function render() {
-        updateChapters();
-
-        const items = filteredItems();
-
-        const modeName = {
-          mcq: "MCQ",
-          cq: "সৃজনশীল প্রশ্ন",
-          board: "বোর্ড/অনুশীলন প্রশ্ন"
-        }[mode];
-
-        status.textContent =
-          `মোট ${items.length}টি ${modeName} পাওয়া গেছে।`;
-
-        if (!items.length) {
-          app.innerHTML = `
-            <section class="panel empty">
-              <h3>কোনো প্রশ্ন পাওয়া যায়নি</h3>
-              <p>অন্য বিষয় নির্বাচন করো অথবা সার্চ বক্স খালি করে দেখো।</p>
-            </section>
-          `;
-          return;
-        }
-
-        app.innerHTML = items.map((q, i) => {
-          if (mode === "mcq") return renderMCQ(q, i);
-          if (mode === "cq") return renderCQ(q, i);
-          return renderBoard(q, i);
-        }).join("");
-      }
-
-      // MCQ উত্তর নির্বাচন
-      app.addEventListener("click", event => {
-        const button = event.target.closest(".option");
-        if (!button || !app.contains(button)) return;
-
-        const card = button.closest(".question");
-        if (!card || card.dataset.answered === "true") return;
-
-        card.dataset.answered = "true";
-
-        card.querySelectorAll(".option").forEach(option => {
-          option.disabled = true;
-
-          if (option.dataset.correct === "true") {
-            option.classList.add("correct");
-          }
-        });
-
-        if (button.dataset.correct !== "true") {
-          button.classList.add("wrong");
-        }
-
-        const answer = card.querySelector(".answer");
-        if (answer) answer.classList.remove("hidden");
-      });
-
-      // MCQ, সৃজনশীল ও বোর্ড প্রশ্নের ট্যাব
-      document.querySelectorAll("[data-mode]").forEach(button => {
-        button.addEventListener("click", () => {
-          mode = button.dataset.mode;
-
-          document.querySelectorAll("[data-mode]").forEach(tab => {
-            tab.classList.toggle("secondary", tab !== button);
-          });
-
-          render();
-        });
-      });
-
-      subjectSelect.addEventListener("change", render);
-      chapterSelect.addEventListener("change", render);
-      searchInput.addEventListener("input", render);
-
-      resetButton.addEventListener("click", () => {
-        subjectSelect.value = "all";
+        paperSelect.value = "all";
         chapterSelect.value = "all";
-        searchInput.value = "";
         render();
       });
+    });
 
+    subjectSelect.addEventListener("change", () => {
+      paperSelect.value = "all";
+      chapterSelect.value = "all";
       render();
-    })();
+    });
+
+    paperSelect.addEventListener("change", () => {
+      chapterSelect.value = "all";
+      render();
+    });
+
+    chapterSelect.addEventListener("change", render);
+    searchInput.addEventListener("input", render);
+
+    resetButton.addEventListener("click", () => {
+      subjectSelect.value = "all";
+      paperSelect.value = "all";
+      chapterSelect.value = "all";
+      searchInput.value = "";
+      render();
+    });
+
+    render();
+  })();
   </script>
 </body>
 </html>
